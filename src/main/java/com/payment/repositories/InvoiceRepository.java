@@ -21,6 +21,7 @@ public class InvoiceRepository implements DaoRepository<Invoice> {
         try {
             st = connection.prepareStatement("INSERT INTO invoices"
             +"VALUES(?,?,?,?)");
+            st.setInt(1,0);
             st.setDouble(2,obj.getTotal());
             st.setDouble(3,obj.getReduction());
             st.setInt(4,obj.getCustomer().getId());
