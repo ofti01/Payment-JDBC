@@ -3,12 +3,14 @@ package com.payment.repositories;
 import com.payment.entities.Payment;
 import com.payment.entities.TypePayment;
 import com.payment.exceptions.DBException;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class PaymentRepository implements DaoRepository<Payment>{
     private Connection connection;
 

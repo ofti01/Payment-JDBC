@@ -2,12 +2,14 @@ package com.payment.repositories;
 
 import com.payment.entities.Invoice;
 import com.payment.exceptions.DBException;
+import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+@Repository
 public class InvoiceRepository implements DaoRepository<Invoice> {
     private Connection connection;
 

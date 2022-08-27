@@ -9,11 +9,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@Slf4j
 public class SQLConnection {
 
-    private static final Logger logger = LoggerFactory.getLogger(SQLConnection.class);
-    public static final String URL = "dbc:mysql://localhost:3306";
+    public static final String URL = "jdbc:mysql://localhost:3306/paymentsystem";
     public static final String USER = "root";
     public static final String PASSWORD = "12345";
     public static Connection connection;
@@ -21,6 +19,7 @@ public class SQLConnection {
     public static Connection getConnection() {
         try {
             connection = DriverManager.getConnection(URL,USER,PASSWORD);
+            System.out.println("ok connection");
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
         }
