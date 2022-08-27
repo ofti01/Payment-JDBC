@@ -1,7 +1,10 @@
 package com.payment.repositories;
 
+import com.payment.connection.SQLConnection;
 import com.payment.entities.Customer;
 import com.payment.exceptions.DBException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -11,15 +14,18 @@ import java.util.List;
 
 @Repository
 public class CustomerRepository implements DaoRepository<Customer>{
-    private Connection connection;
 
-    public CustomerRepository(Connection connection) {
-        this.connection = connection;
+
+    private SQLConnection sqlConnection;
+
+    public CustomerRepository(SQLConnection sqlConnection) {
+        this.sqlConnection = sqlConnection;
     }
 
     @Override
     public void insert(Customer obj) {
         PreparedStatement st = null;
+        Connection connection = sqlConnection.getConnection();
         try {
             st = connection.prepareStatement("INSERT INTO customers VALUES(?,?,?)");
             st.setInt(1, obj.getId());
@@ -27,10 +33,11 @@ public class CustomerRepository implements DaoRepository<Customer>{
             st.setString(3,obj.getEmail());
             st.executeUpdate();
             System.out.println("customer added");
-
+            connection.close();
         } catch (SQLException e) {
             throw new DBException("no Customer affected");
         }
+
     }
 
     @Override

@@ -4,11 +4,13 @@ import com.payment.exceptions.DBException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Component
 public class SQLConnection {
 
     public static final String URL = "jdbc:mysql://localhost:3306/paymentsystem";
