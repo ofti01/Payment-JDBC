@@ -16,16 +16,10 @@ import java.util.List;
 public class CustomerRepository implements DaoRepository<Customer>{
 
 
-    private SQLConnection sqlConnection;
-
-    public CustomerRepository(SQLConnection sqlConnection) {
-        this.sqlConnection = sqlConnection;
-    }
-
     @Override
     public void insert(Customer obj) {
         PreparedStatement st = null;
-        Connection connection = sqlConnection.getConnection();
+        Connection connection = SQLConnection.getConnection();
         try {
             st = connection.prepareStatement("INSERT INTO customers VALUES(?,?,?)");
             st.setInt(1, obj.getId());
@@ -42,7 +36,20 @@ public class CustomerRepository implements DaoRepository<Customer>{
 
     @Override
     public void update(Customer obj) {
+        PreparedStatement st = null;
+        Connection connection = SQLConnection.getConnection();
+        try {
+            st = connection.prepareStatement("UPDATE customers SET name = ?, email = ? where id = ?");
+            st.setString(1,obj.getName());
+            st.setString(2,obj.getEmail());
+            st.setInt(3,obj.getId());
+            st.executeUpdate();
+            System.out.println("customer updated");
+            connection.close();
 
+        } catch (SQLException e) {
+            throw new DBException("no customer updated");
+        }
     }
 
     @Override

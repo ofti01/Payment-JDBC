@@ -1,5 +1,6 @@
 package com.payment.repositories;
 
+import com.payment.connection.SQLConnection;
 import com.payment.entities.Payment;
 import com.payment.entities.TypePayment;
 import com.payment.exceptions.DBException;
@@ -12,15 +13,11 @@ import java.util.List;
 
 @Repository
 public class PaymentRepository implements DaoRepository<Payment>{
-    private Connection connection;
-
-    public PaymentRepository(Connection connection) {
-        this.connection = connection;
-    }
 
     @Override
     public void insert(Payment obj) {
         PreparedStatement st = null;
+        Connection connection = SQLConnection.getConnection();
         try {
             st = connection.prepareStatement("INSERT INTO payments"
                     +"VALUES(?,?,?)");
@@ -35,7 +32,20 @@ public class PaymentRepository implements DaoRepository<Payment>{
 
     @Override
     public void update(Payment obj) {
+        PreparedStatement st = null;
+        Connection connection = SQLConnection.getConnection();
+        try {
+            st = connection.prepareStatement("UPDATE payments SET type_payment = ? , id_employee = ? WHERE id = ? ");
+            st.setString(1,obj.getTypePayment().toString());
+            st.setInt(2,obj.getEmployee().getId());
+            st.setInt(3,obj.getId());
+            st.executeUpdate();
+            System.out.println("customer updated");
+            connection.close();
 
+        } catch (SQLException e) {
+            throw new DBException("no customer updated");
+        }
     }
 
     @Override
